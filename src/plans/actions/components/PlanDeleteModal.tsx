@@ -34,6 +34,19 @@ const PlanDeleteModal: OverlayComponent<PlanModalProps> = ({ closeOverlay, plan 
 
   const status = getPlanStatus(plan);
 
+  // Interpolated values are written as object children (`{{ name }}`) so the key react-i18next
+  // builds keeps the `{{name}}` placeholder rather than inlining the plan's actual name.
+  const confirmationMessage = namespace ? (
+    <ForkliftTrans>
+      Are you sure you want to delete <strong className="co-break-word">{{ name }}</strong> in
+      project <strong>{{ namespace }}</strong>?
+    </ForkliftTrans>
+  ) : (
+    <ForkliftTrans>
+      Are you sure you want to delete <strong className="co-break-word">{{ name }}</strong>?
+    </ForkliftTrans>
+  );
+
   return (
     <ModalForm
       closeOverlay={closeOverlay}
@@ -43,18 +56,7 @@ const PlanDeleteModal: OverlayComponent<PlanModalProps> = ({ closeOverlay, plan 
       title={t('Delete plan')}
     >
       <Stack hasGutter>
-        <StackItem>
-          <ForkliftTrans>
-            Are you sure you want to delete <strong className="co-break-word">{name}</strong> in
-            {namespace && (
-              <>
-                {' '}
-                project <strong>{namespace}</strong>
-              </>
-            )}
-            ?
-          </ForkliftTrans>
-        </StackItem>
+        <StackItem>{confirmationMessage}</StackItem>
         <StackItem>
           {(status === PlanStatuses.Executing || status === PlanStatuses.Pending) && (
             <Alert
@@ -73,8 +75,8 @@ const PlanDeleteModal: OverlayComponent<PlanModalProps> = ({ closeOverlay, plan 
             >
               <ForkliftTrans>
                 Deleting a migration plan does not remove temporary resources, it is recommended to{' '}
-                <strong>archive</strong> the plan first before deleting it, to remove temporary
-                resources.
+                <strong className="co-break-word">archive</strong> the plan first before deleting
+                it, to remove temporary resources.
               </ForkliftTrans>
             </Alert>
           )}

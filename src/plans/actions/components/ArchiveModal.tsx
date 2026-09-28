@@ -26,6 +26,7 @@ const ArchiveModal: OverlayComponent<PlanModalProps> = ({ closeOverlay, plan }) 
     });
   }, [plan]);
 
+  const name = getName(plan);
   const status = getPlanStatus(plan);
   const isPlanRunning = status === PlanStatuses.Executing || status === PlanStatuses.Pending;
 
@@ -40,7 +41,7 @@ const ArchiveModal: OverlayComponent<PlanModalProps> = ({ closeOverlay, plan }) 
       <ForkliftTrans>
         <Stack hasGutter>
           <StackItem>
-            Archive plan <strong className="co-break-word">{getName(plan)}</strong>?
+            Archive plan <strong className="co-break-word">{{ name }}</strong>?
           </StackItem>
           <StackItem>
             When a plan is archived, its history, metadata, and logs are deleted. The plan cannot be

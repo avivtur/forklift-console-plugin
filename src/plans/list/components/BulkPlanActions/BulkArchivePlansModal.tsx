@@ -40,7 +40,7 @@ const BulkArchivePlansModal: OverlayComponent<BulkArchivePlansModalProps> = ({
 }) => {
   const { t } = useForkliftTranslation();
   const [actionFailures, setActionFailures] = useState<BulkPlanActionFailure[]>([]);
-
+  const { length } = plans;
   const onArchive = useCallback(async () => {
     setActionFailures([]);
 
@@ -65,7 +65,6 @@ const BulkArchivePlansModal: OverlayComponent<BulkArchivePlansModalProps> = ({
       throw new Error('');
     }
   }, [plans]);
-
   return (
     <ModalForm
       closeOverlay={closeOverlay}
@@ -79,7 +78,8 @@ const BulkArchivePlansModal: OverlayComponent<BulkArchivePlansModalProps> = ({
       <Stack hasGutter>
         <StackItem>
           <ForkliftTrans>
-            Archive <strong>{plans.length}</strong> selected migration plans?
+            Archive <strong className="co-break-word">{{ length }}</strong> selected migration
+            plans?
           </ForkliftTrans>
           <p>
             {t(
